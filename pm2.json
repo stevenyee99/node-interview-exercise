@@ -1,0 +1,8 @@
+{
+  "name": "NodeInterviewExercise",
+  "script": "index.js",
+  "cwd": "/opt/nodejs",
+  "min_uptime": "10s",
+  "error_file" : "/var/log/nike/node-interview-exercise/error.json",
+  "out_file": "/var/log/nike/node-interview-exercise/out.json"
+}

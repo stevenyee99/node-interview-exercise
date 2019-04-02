@@ -1,0 +1,44 @@
+{
+  "name": "@nike/node-interview-exercise",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Austin Corso <austin.corso@nike.com>",
+  "private": true,
+  "engines": {
+    "node": ">= 6.0.0"
+  },
+  "scripts": {
+    "start": "nodemon ./index.js --ignore '*.spec.js' | bunyan -o short",
+    "test": "npm run test:lint && npm run test:unit",
+    "test:watch": "mocha './server/**/*.spec.js' --watch",
+    "test:lint": "eslint ./server",
+    "test:unit": "istanbul cover _mocha './server/**/*.spec.js'"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.103.0",
+    "body-parser": "^1.17.1",
+    "bunyan": "^1.8.10",
+    "bunyan-middleware": "^0.8.0",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "lodash": "^4.17.4",
+    "nconf": "^0.8.4",
+    "request": "^2.81.0",
+    "request-promise-native": "^1.0.4"
+  },
+  "devDependencies": {
+    "bunyan-format": "^0.2.1",
+    "chai": "^3.5.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "node-mocks-http": "^1.6.2",
+    "nodemon": "^1.11.0",
+    "proxyquire": "^1.7.11",
+    "rewire": "^2.5.2",
+    "sinon": "^2.1.0",
+    "supertest": "^3.0.0"
+  }
+}

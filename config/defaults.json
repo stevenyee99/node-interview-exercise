@@ -1,0 +1,7 @@
+{
+  "port": 8080,
+  "logLevel": "info",
+  "logFolder": "logs",
+  "name": "node-interview-exercise",
+  "basePath": "/"
+}

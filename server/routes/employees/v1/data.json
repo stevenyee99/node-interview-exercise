@@ -1,0 +1,56 @@
+{
+  "employees": [
+    {
+      "id": 0,
+      "firstName": "Alex",
+      "lastName": "Jones",
+      "store": 111
+    },
+    {
+      "id": 1,
+      "firstName": "Chris",
+      "lastName": "Jacobs",
+      "store": 123
+    },
+    {
+      "id": 2,
+      "firstName": "John",
+      "lastName": "Saxton",
+      "store": 111
+    },
+    {
+      "id": 3,
+      "firstName": "Andrew",
+      "lastName": "Smith",
+      "store": 123
+    },
+    {
+      "id": 4,
+      "firstName": "Sarah",
+      "lastName": "Hills",
+      "store": 0
+    }
+  ],
+  "stores": {
+    "0": {
+      "id": 0,
+      "location": "Texas",
+      "type": "primary"
+    },
+    "100": {
+      "id": 100,
+      "location": "Oregon",
+      "type": "partner"
+    },
+    "111": {
+      "id": 111,
+      "location": "California",
+      "type": "primary"
+    },
+    "123": {
+      "id": 123,
+      "location": "Oregon",
+      "type": "partner"
+    }
+  }
+}
