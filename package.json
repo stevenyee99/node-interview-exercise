@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.103.0",
-    "body-parser": "^1.17.1",
+    "body-parser": "^1.19.0",
     "bunyan": "^1.8.10",
     "bunyan-middleware": "^0.8.0",
     "cors": "^2.8.3",
@@ -24,7 +24,8 @@
     "lodash": "^4.17.13",
     "nconf": "^0.8.4",
     "request": "^2.81.0",
-    "request-promise-native": "^1.0.4"
+    "request-promise-native": "^1.0.4",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "bunyan-format": "^0.2.1",

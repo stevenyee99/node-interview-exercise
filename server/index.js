@@ -3,6 +3,7 @@ const express = require('express');
 const http = require('http');
 const bunyan = require('bunyan');
 const bunyanMiddleware = require('bunyan-middleware');
+const bodyParser = require('body-parser');
 
 const config = require('../config');
 const { version } = require('../package.json');
@@ -20,7 +21,7 @@ function createServer(port) {
   const logger = bunyan.createLogger({ name: 'Node Interview Exercise' });
   app.use(bunyanMiddleware({ logger }));
   // app.use(cors());
-  // app.use(bodyParser.json());
+  app.use(bodyParser.json());
 
   // routes.
   app.get('/', (req, res) => res.json({ version }));

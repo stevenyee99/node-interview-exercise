@@ -9,6 +9,24 @@ const server = require('../../..');
 const config = require('../../../../config');
 const data = require('./data.json');
 
+const FIXTURES = {
+  newEmployee: {
+    firstName: 'Steven',
+    lastName: 'Yee',
+    store: 100
+  },
+  noName: {
+    firstName: '',
+    lastName: '',
+    store: 100
+  },
+  badStore: {
+    firstName: 'Steven',
+    lastName: 'Yee',
+    store: 99999
+  },
+};
+
 describe('Employees V1 Routes', () => {
   let app;
 
@@ -104,13 +122,65 @@ describe('Employees V1 Routes', () => {
     });
   });
 
-  // describe('POST:/store/employees/v1', () => {
-  //   it('200', (done) => {
-  //     request(app)
-  //       .post('/store/employees/v1')
-  //       .expect(200, done);
-  //   });
-  // });
+  describe('POST:/store/employees/v1', () => {
+    // Create new employee then check length via new get request;
+    it('creates a new employee', (done) => {
+      request(app)
+        .post('/store/employees/v1')
+        .send(FIXTURES.newEmployee)
+        .expect(res => {
+          expect(res.body.lastName).to.equal(FIXTURES.newEmployee.lastName);
+          expect(res.body.firstName).to.equal(FIXTURES.newEmployee.firstName);
+          expect(res.body.store).to.equal(FIXTURES.newEmployee.store);
+        })
+        .end(() => {
+          request(app)
+            .get('/store/employees/v1')
+            .expect(res => {
+              expect(res.body).to.have.length(6);
+            })
+            .end(done)
+        });
+    });
+    it('requires more info', (done) => {
+      request(app)
+        .post('/store/employees/v1')
+        .send(FIXTURES.noName)
+        .expect(400, 'firstName, lastName, and store required', done);
+    });
+    it('requires a valid store', (done) => {
+      request(app)
+        .post('/store/employees/v1')
+        .send(FIXTURES.badStore)
+        .expect(400, `Store ${FIXTURES.badStore.store} does not exist.`, done);
+    });
+    // Create the same employee twice.  Expect an error
+    it.only('does not allow for duplicate employees to be created', (done) => {
+      let newEmployeeId;
+      request(app)
+      .post('/store/employees/v1')
+      .send(FIXTURES.newEmployee)
+      .expect(res => {
+        newEmployeeId = res.body.id;
+        expect(res.body.lastName).to.equal(FIXTURES.newEmployee.lastName);
+        expect(res.body.firstName).to.equal(FIXTURES.newEmployee.firstName);
+        expect(res.body.store).to.equal(FIXTURES.newEmployee.store);
+      })
+      .end(() => {
+        const expectedEmployee = [{
+          id: newEmployeeId,
+          firstName: FIXTURES.newEmployee.firstName,
+          lastName: FIXTURES.newEmployee.lastName,
+          store: FIXTURES.newEmployee.store,
+        }];
+        request(app)
+          .post('/store/employees/v1')
+          .send(FIXTURES.newEmployee)
+          .expect(400, `Employee already exists.  Please check that the information is current and use an update if its not. ${JSON.stringify(expectedEmployee, null, 2)}.`)
+          .end(done)
+      });
+    });
+  });
 
   
 

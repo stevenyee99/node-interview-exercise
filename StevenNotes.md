@@ -2,6 +2,8 @@
 Most of my comments in here are for you so we have clear discussion points.  I would not leave most of these in for a real MR.  Only the gotcha's would stay (like the truthy falsey one).
 
 # Patterns
+## Ids
+We should definitely not use this pattern for our Ids.  I personally think UUIDs (or GUIDs) are far superior to a serialization.  You'll never have to worry about truthy falsey, users trying to access data they shouldn't by guessing keys, and devs short cutting patterns (eg newer data has a larger increment).  
 ## Routes
 I think that the route names started a bit unclear.  I inutit `/` as a get all employees since we're in the context of employees based on the base route (even better than / would be `/get-all-employees`).  If I want to get by id `/:id` makes sense since we are in the context of employees.  If I want to get by store, then it should have a longer route of `/get-by-store/:storeId`.
 

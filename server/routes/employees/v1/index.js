@@ -2,9 +2,9 @@
 /* eslint no-unused-vars: 0 */
 
 const router = require('express').Router();
-const _ = require('lodash');
 
 const data = require('./data');
+const uuidv4 = require('uuid/v4');
 
 function employeesRoutes() {
   // COLLECTION
@@ -12,13 +12,37 @@ function employeesRoutes() {
     return res.status(200).send(data.employees);
   });
 
-  // Approach
-  // Check for required fields.  Send error message if not there
-  // Check if store is correct
-  // Check if employee already exists
-  // router.post('/', (req, res) => {
-  //   res.json({ ok: true });
-  // });
+  router.post('/', (req, res) => {
+    const { firstName, lastName, store } = req.body;
+    if(!firstName || !lastName || !store) {
+      return res.status(400).send('firstName, lastName, and store required');
+    }
+
+    // Validate
+    const isValidStore = !!data.stores[store]; // Felt the variable name added some self-documentation.  Line could easily be removed and put in the if statement
+    if(!isValidStore) {
+      return res.status(400).send(`Store ${store} does not exist.`);
+    }
+    const duplicateEmployees = data.employees.filter(e => e.firstName === firstName && e.lastName === lastName);
+    const isDuplicateEmployee = duplicateEmployees.length > 0;
+    if(isDuplicateEmployee) {
+      return res.status(400).send(`Employee already exists.  Please check that the information is current and use an update if its not. ${JSON.stringify(duplicateEmployees, null, 2)}.`);
+    }
+
+    // Add to "DB"
+    const newEmployee = {
+      id: uuidv4(),
+      firstName,
+      lastName,
+      store
+    }
+
+    // 2 options here, one simply append the data and have it vanish when server restarts
+    // Other is to actually append to the file.  I felt the former is simpler and more inline with what you're trying to test.
+    data.employees.push(newEmployee);
+
+    return res.status(200).send(newEmployee);
+  });
 
   // SINGLETON
   router.get('/:id', (req, res) => {
@@ -31,8 +55,7 @@ function employeesRoutes() {
     // I use == vs === here since the request comes in as a string and the data is a number.
     // I could also turn the storeId into an Int.  This seems simpler to me from a coding perspective.
     const employee = data.employees.filter(e => e.id == employeeId);
-    // Old style.  Would remove in an MR.  Left in for a discussion point.
-      // const employee = _.find(data.employees, ['id', parseInt(employeeId, 10)]);
+    // Old style.    _.find(data.employees, ['id', parseInt(employeeId, 10)]);
 
     if(employee[0]) {
       // Given how loose our DB is, there should be a (cronjob?) check to make sure we dont have collisions with keys.
@@ -56,6 +79,11 @@ function employeesRoutes() {
     }
     return res.status(404).send(`No employees found for store id: ${storeId}.`);
   });
+
+  // Approach for Patch and put
+  // 1.  Take employee Id.  Make sure employee exists
+  // 2.  Validate data.  Store must exists.  Must have f/l name
+  // 3.  perform update
 
   // router.put('/:id', (req, res) => {
   //   res.json({ ok: true });
