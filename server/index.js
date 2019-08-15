@@ -1,3 +1,4 @@
+/* eslint no-undef: 0 */
 const express = require('express');
 const http = require('http');
 const bunyan = require('bunyan');
