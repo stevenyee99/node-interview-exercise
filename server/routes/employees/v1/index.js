@@ -47,13 +47,13 @@ function employeesRoutes() {
   // SINGLETON
   router.get('/:id', (req, res) => {
     const employeeId = req.params.id;
-    if(!employeeId) {
+    if(!employeeId) { // Condition currently unreachable due to  get "/" route
       return res.status(400).send('Employee ID required');
     }
 
     // I think this line is simpler than adding _ personally.  I'm generally not a fan of using functions as arguments since they make it harder to read.
     // I use == vs === here since the request comes in as a string and the data is a number.
-    // I could also turn the storeId into an Int.  This seems simpler to me from a coding perspective.
+    // I could also turn the storeId into an Int.  This seems simpler to me from a readability perspective.
     const employee = data.employees.filter(e => e.id == employeeId);
     // Old style.    _.find(data.employees, ['id', parseInt(employeeId, 10)]);
 
@@ -93,6 +93,11 @@ function employeesRoutes() {
   //   res.json({ ok: true });
   // });
 
+  // Approach for Delete
+  // 1.  Take employee Id.  Make sure employee exists
+  // 2.  Find index of employee.  Splice it out
+  // 3.  Give that our DB is kinda loose, I'd probably recursively perform this until I dont find the employeeID
+  
   // router.delete('/:id', (req, res) => {
   //   res.json({ ok: true });
   // });

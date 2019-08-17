@@ -69,7 +69,7 @@ describe('Employees V1 Routes', () => {
         .get('/store/employees/v1/99999')
         .expect(404, 'Employee not found', done) ;
     });
-    // No test for 'it requires employee id' since / is a get all route
+    // No test for 'it requires employee id' since / is a get all route -- SY 2019
   });
 
   // COLLECTION
@@ -137,6 +137,7 @@ describe('Employees V1 Routes', () => {
           request(app)
             .get('/store/employees/v1')
             .expect(res => {
+              // This is hardcoded at 6.  I could get the length after I create server and see if its that +1.
               expect(res.body).to.have.length(6);
             })
             .end(done)
@@ -154,6 +155,7 @@ describe('Employees V1 Routes', () => {
         .send(FIXTURES.badStore)
         .expect(400, `Store ${FIXTURES.badStore.store} does not exist.`, done);
     });
+
     // Create the same employee twice.  Expect an error
     it.only('does not allow for duplicate employees to be created', (done) => {
       let newEmployeeId;
@@ -167,6 +169,7 @@ describe('Employees V1 Routes', () => {
         expect(res.body.store).to.equal(FIXTURES.newEmployee.store);
       })
       .end(() => {
+        // Order matters here since Im strignifying the JSON.
         const expectedEmployee = [{
           id: newEmployeeId,
           firstName: FIXTURES.newEmployee.firstName,

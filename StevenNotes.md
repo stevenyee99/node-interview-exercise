@@ -20,3 +20,4 @@ Cons:  You're giving a 200 even if there is a problem.  Grrrrr
 
 # General
 1.  Update to Node 10
+2.  Depending on use case, I'd want to add some level of auth to these APIs. . . probably based on user role.  These probably shouldn't be exposed outside of the cluster.
