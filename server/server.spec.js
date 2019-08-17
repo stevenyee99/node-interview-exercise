@@ -1,7 +1,6 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-multi-assign */
-/* eslint-disable no-unused-expressions */
+/* eslint no-undef: 0 */
+/* eslint no-unused-vars: 0 */
+
 
 const expect = require('chai').expect;
 
